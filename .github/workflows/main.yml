@@ -22,7 +22,7 @@ jobs:
       API_KEY: ${{ secrets.PREFECT_API_KEY}}
     strategy:
       matrix:
-        flow-folder: ${{ needs.create-matrix.outputs.matrix }}
+        flow-folder: ${{ needs.set-matrix.outputs.matrix }}
       max-parallel: 10
     steps:
       - name: Checkout repository
