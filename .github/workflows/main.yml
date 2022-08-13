@@ -37,7 +37,7 @@ jobs:
         working-directory: projects/jottings/hello_flow
         run: pip install -r requirements.txt
       - name: Login to Prefect Cloud 2.0
-        run: prefect cloud login --key $API_KEY --workspace 'henningholgersenio/dev'
+        run: prefect cloud login --key $API_KEY --workspace henningholgersenio/dev
       - name: Check Prefect version
         run: prefect version
       - name: Create deployment
