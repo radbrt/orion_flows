@@ -21,26 +21,11 @@ def print_platform_info():
 
 
 @flow
-def hello_flow():
+def main():
     hi = say_hi()
     print_platform_info(wait_for=[hi])
 
-# if __name__ == '__main__':
-#     hello_flow()
+if __name__ == '__main__':
+    main()
 
 
-storage = Azure.load("cloudio") # load a pre-defined block
-
-
-deployment = Deployment(
-    flow_name="hello_flow",
-    name="hello-flow-directbuild",
-    version="2",
-    tags=["dev"],
-    storage=storage,
-    infra_overrides={"image": "radbrt/prefect_azure:latest", "namespace": "prefect2"},
-    schedule = prefect.orion.schemas.schedules.CronSchedule(cron="0 0 * * *")
-)
-
-deployment.build_from_flow(hello_flow)
-deployment.apply()
