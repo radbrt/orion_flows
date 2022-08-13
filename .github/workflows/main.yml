@@ -7,23 +7,23 @@ on:
         required: false
         default: ".*"
 jobs:
-  create-matrix:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-      - uses: actions/checkout@v2
-      - id: set-matrix
-        run: echo "$(find projects/ -maxdepth 2 -mindepth 2 | grep "${{ github.event.inputs.pattern }}" | jq -Rsc '. / "\n" - [""]')"
+  # create-matrix:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     matrix: ${{ steps.set-matrix.outputs.matrix }}
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - id: set-matrix
+  #       run: echo "$(find projects/ -maxdepth 2 -mindepth 2 | grep "${{ github.event.inputs.pattern }}" | jq -Rsc '. / "\n" - [""]')"
   register-flows:
-    needs: create-matrix
+    # needs: create-matrix
     runs-on: ubuntu-latest
     env:
       API_KEY: ${{ secrets.PREFECT_API_KEY}}
-    strategy:
-      matrix:
-        flow-folder: ${{ needs.create-matrix.outputs.matrix }}
-      max-parallel: 10
+    # strategy:
+    #   matrix:
+    #     flow-folder: ${{ needs.create-matrix.outputs.matrix }}
+      # max-parallel: 10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -34,18 +34,18 @@ jobs:
       - name: Install prefect
         run: pip install prefect
       - name: install dependencies
-        working-directory: ${{ matrix.flow-folder }}
+        working-directory: projects/jottings/hello_flow
         run: pip install -r requirements.txt
       - name: Login to Prefect Cloud 2.0
         run: prefect cloud login --key $API_KEY --workspace 'henningholgersenio/dev'
       - name: Check Prefect version
         run: prefect version
       - name: Create deployment
-        working-directory: ${{ matrix.flow-folder }}
-        run: prefect deployment build ./flow.py:main -n $(echo "${{ matrix.flow-folder }}" | cut -d '/' -f2) --storage-block azure/cloudio -t dev --infra kubernetes-job -o deployment.yaml
+        working-directory: projects/jottings/hello_flow
+        run: prefect deployment build ./flow.py:main -n $(echo "projects/jottings/hello_flow" | cut -d '/' -f2) --storage-block azure/cloudio -t dev --infra kubernetes-job -o deployment.yaml
       - name: Add overrides file
-        working-directory: ${{ matrix.flow-folder }}
+        working-directory: projects/jottings/hello_flow
         run: cat infra_overrides.yaml >> deployment.yaml
       - name: Apply deployment
-        working-directory: ${{ matrix.flow-folder }}
+        working-directory: projects/jottings/hello_flow
         run: prefect deployment apply deployment.yaml
