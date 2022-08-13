@@ -1,0 +1,9 @@
+pandas
+pandas-gbq
+pyarrow
+oauth2client
+feedparser
+google-auth
+azure-identity
+azure-keyvault-secrets
+prefect

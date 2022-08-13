@@ -1,0 +1,67 @@
+###
+### A complete description of a Prefect Deployment for flow 'run-data'
+###
+name: run-flow-deployment
+description: null
+version: ecfe6e85323360658823a569cb29b5ab
+tags:
+- dev
+parameters: {}
+schedule: null
+infra_overrides:
+  namespace: prefect2
+  image: radbrt/prefect_azure:latest
+infrastructure:
+  type: kubernetes-job
+  env: {}
+  labels: {}
+  name: null
+  command:
+  - python
+  - -m
+  - prefect.engine
+  image: prefecthq/prefect:2.0.4-python3.10
+  namespace: default
+  service_account_name: null
+  image_pull_policy: null
+  cluster_config: null
+  job:
+    apiVersion: batch/v1
+    kind: Job
+    metadata:
+      labels: {}
+    spec:
+      template:
+        spec:
+          parallelism: 1
+          completions: 1
+          restartPolicy: Never
+          containers:
+          - name: prefect-job
+            env: []
+  customizations: []
+  job_watch_timeout_seconds: 5
+  pod_watch_timeout_seconds: 60
+  stream_output: true
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: run-data
+manifest_path: null
+storage:
+  bucket_path: cloudio/dev
+  azure_storage_connection_string: '**********'
+  azure_storage_account_name: ''
+  azure_storage_account_key: ''
+  _is_anonymous: true
+  _block_document_name: anonymous-76c9d82d-41cc-4439-8fc1-aeedebcef9a9
+  _block_document_id: ab0c2ac6-4d12-4cb2-9ab8-310bda77ac2c
+  _block_type_slug: azure
+path: null
+entrypoint: flow.py:run_data
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties: {}
+  required: null
+  definitions: null

@@ -1,0 +1,68 @@
+###
+### A complete description of a Prefect Deployment for flow 'hello-flow'
+###
+name: hello-deployment
+description: null
+version: e72b6c1280d72608e51b2fed97b95906
+tags:
+- dev
+parameters: {}
+schedule: 
+  cron: "12 01 * * *"
+infra_overrides:
+  namespace: prefect2
+  image: radbrt/prefect_azure:latest
+infrastructure:
+  type: kubernetes-job
+  env: {}
+  labels: {}
+  name: null
+  command:
+  - python
+  - -m
+  - prefect.engine
+  image: prefecthq/prefect:2.0.4-python3.10
+  namespace: default
+  service_account_name: null
+  image_pull_policy: null
+  cluster_config: null
+  job:
+    apiVersion: batch/v1
+    kind: Job
+    metadata:
+      labels: {}
+    spec:
+      template:
+        spec:
+          parallelism: 1
+          completions: 1
+          restartPolicy: Never
+          containers:
+          - name: prefect-job
+            env: []
+  customizations: []
+  job_watch_timeout_seconds: 5
+  pod_watch_timeout_seconds: 60
+  stream_output: true
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: hello-flow
+manifest_path: null
+storage:
+  bucket_path: cloudio/dev
+  azure_storage_connection_string: '**********'
+  azure_storage_account_name: ''
+  azure_storage_account_key: ''
+  _is_anonymous: true
+  _block_document_name: anonymous-e6700085-abb1-420d-84d3-e93b7e841180
+  _block_document_id: b9bfec23-6a1e-4c04-9978-f08719ef0645
+  _block_type_slug: azure
+path: null
+entrypoint: flow.py:hello_flow
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties: {}
+  required: null
+  definitions: null
