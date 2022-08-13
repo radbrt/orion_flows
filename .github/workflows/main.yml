@@ -33,13 +33,13 @@ jobs:
           python-version: '3.9.x'
       - name: Install prefect
         run: pip install prefect
+      - name: Check Prefect version
+        run: prefect version
       # - name: install dependencies
       #   working-directory: projects/jottings/hello_flow
       #   run: pip install -r requirements.txt
       - name: Login to Prefect Cloud 2.0
-        run: prefect cloud login --key $API_KEY --workspace henningholgersenio/dev
-      - name: Check Prefect version
-        run: prefect version
+        run: prefect cloud login --key ${{ secrets.PREFECT_API_KEY}} --workspace henningholgersenio/dev
       - name: Create deployment
         working-directory: projects/jottings/hello_flow
         run: prefect deployment build ./flow.py:main -n $(echo "projects/jottings/hello_flow" | cut -d '/' -f2) --storage-block azure/cloudio -t dev --infra kubernetes-job -o deployment.yaml
