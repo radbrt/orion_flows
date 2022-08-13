@@ -6,7 +6,7 @@ Reading data from SQL databases into a distributed framework is a lot more diffi
 
 The dask-snowflake library fixes this, and can read natively read data from snowflake into a distributed dask dataframe. There is no need to specify partition columns - snowflake handles it automatically, giving dask a good starting point for distributed computation in python.
 
-## How to do it without dask-snowflake
+## How to load data without dask-snowflake
 
 Without distributed SQL reads, loading data from snowflake into dask would be a multi-step process. In order to read in parallel, you would need to start by dumping the data out of snowflake and into cloud storage. This works because snowflake splits data into blocks, by default 32MB in size.
 
