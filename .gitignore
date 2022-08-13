@@ -1,0 +1,4 @@
+_jottings.py
+_jot*.py
+*__pycache__*
+*.pyc

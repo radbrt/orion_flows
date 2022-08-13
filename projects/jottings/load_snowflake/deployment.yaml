@@ -1,16 +1,14 @@
 ###
-### A complete description of a Prefect Deployment for flow 'run-data'
+### A complete description of a Prefect Deployment for flow 'main'
 ###
-name: run-flow-deployment
+name: load_snowflake
 description: null
-version: ecfe6e85323360658823a569cb29b5ab
+version: 255265336a33d946b1e44db1c5a48e33
 tags:
 - dev
 parameters: {}
 schedule: null
-infra_overrides:
-  namespace: prefect2
-  image: radbrt/prefect_azure:latest
+infra_overrides: {}
 infrastructure:
   type: kubernetes-job
   env: {}
@@ -46,7 +44,7 @@ infrastructure:
 ###
 ### DO NOT EDIT BELOW THIS LINE
 ###
-flow_name: run-data
+flow_name: main
 manifest_path: null
 storage:
   bucket_path: cloudio/dev
@@ -54,14 +52,20 @@ storage:
   azure_storage_account_name: ''
   azure_storage_account_key: ''
   _is_anonymous: true
-  _block_document_name: anonymous-76c9d82d-41cc-4439-8fc1-aeedebcef9a9
-  _block_document_id: ab0c2ac6-4d12-4cb2-9ab8-310bda77ac2c
+  _block_document_name: anonymous-beba53ed-47b5-4a36-9c67-faff9dfb9b0a
+  _block_document_id: 5d09077c-1f20-44e3-8ea8-d977d8b5bdba
   _block_type_slug: azure
 path: null
-entrypoint: flow.py:run_data
+entrypoint: flow.py:main
 parameter_openapi_schema:
   title: Parameters
   type: object
-  properties: {}
+  properties:
+    table_name:
+      title: table_name
+      default: MEI
   required: null
   definitions: null
+infra_overrides:
+  namespace: prefect2
+  image: radbrt/prefect_azure:latest

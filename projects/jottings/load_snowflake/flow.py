@@ -36,10 +36,12 @@ def query_snowflake(table_name):
             "account": account,
             "warehouse": warehouse
         },
-    ).repartition(partition_size='100MB')
+    ).repartition("32MB")
     logger.info(f"Query result has {ddf.npartitions} partitions")
     return ddf
 
+def write_partition(df, table_name, connstr):
+    df.to_sql(name='test', con=connstr, if_exists='append', index=False, sche=df)
 
 @task()
 def write_to_pg(df, to_table):
@@ -54,7 +56,7 @@ def write_to_pg(df, to_table):
 
     connstring = f"postgresql+psycopg2://{username}:{password}@{host}:5432/postgres?sslmode=require"
 
-    df.to_sql(name=randid, uri=connstring, chunksize=10000, if_exists="replace")
+    df.to_sql(name=randid, uri=connstring, chunksize=1000, if_exists="replace")
 
     logger = get_run_logger()
     logger.info(df.dtypes)
@@ -67,8 +69,7 @@ def write_to_pg(df, to_table):
 
 
 @flow
-def run_data():
-    table_name = "MEI"
+def main(table_name="MEI"):
     to_table = "ECONOMY_DATASETS"
 
     df = query_snowflake(table_name)
@@ -76,6 +77,6 @@ def run_data():
 
 
 if __name__ == '__main__':
-    run_data()
+    main()
 
 
