@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: set-matrix
-        run: echo "::set-output name=matrix::$(find projects/ -maxdepth 2 -mindepth 2 | grep "${{ github.event.inputs.pattern }}" | jq -Rsc '. / "\n" - [""]')"
+        run: echo "$(find projects/ -maxdepth 2 -mindepth 2 | grep "${{ github.event.inputs.pattern }}" | jq -Rsc '. / "\n" - [""]')"
   register-flows:
     runs-on: ubuntu-latest
     container: prefecthq/prefect:2.0.4-python3.10
@@ -22,7 +22,7 @@ jobs:
       API_KEY: ${{ secrets.PREFECT_API_KEY}}
     strategy:
       matrix:
-        flow-folder: ${{ fromJSON(needs.create-matrix.outputs.matrix) }}
+        flow-folder: ${{ needs.create-matrix.outputs.matrix }}
       max-parallel: 10
     steps:
       - name: Checkout repository
