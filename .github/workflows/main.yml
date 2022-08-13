@@ -26,7 +26,7 @@ jobs:
       max-parallel: 10
     steps:
       - name: Checkout repository
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
       - name: install dependencies
         working-directory: ${{ matrix.flow-folder }}
         run: pip install -r requirements.txt
