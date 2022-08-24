@@ -38,8 +38,9 @@ jobs:
       #   run: pip install -r requirements.txt
       - name: Login to Prefect Cloud 2.0
         run: |
-          prefect config set PREFECT_API_KEY=${{ secrets.PREFECT_API_KEY}} 
-          prefect config set PREFECT_API_URL=${{ secrets.PREFECT_API_URL}}
+          prefect config set PREFECT_API_KEY=${{ secrets.PREFECT_API_KEY }} 
+          prefect config set PREFECT_API_URL=${{ secrets.PREFECT_API_URL }}
+          
       - name: Create deployment
         working-directory: projects/jottings/hello_flow
         run: prefect deployment build ./flow.py:main \
