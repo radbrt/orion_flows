@@ -45,7 +45,7 @@ jobs:
         working-directory: ${{ matrix.flow-folder }}
         run: |
           prefect deployment build ./flow.py:main \
-          -n $(echo ${{ matrix.flow-folder }} | cut -d '/' -f2) \
+          -n $(echo ${{ matrix.flow-folder }} | cut -d '/' -f3) \
           -q kubernetes \
           --override namespace='prefect2' \
           --override image=radbrt/prefect_azure:latest \
