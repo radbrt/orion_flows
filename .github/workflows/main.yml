@@ -40,10 +40,11 @@ jobs:
         run: |
           prefect config set PREFECT_API_KEY=${{ secrets.PREFECT_API_KEY }} 
           prefect config set PREFECT_API_URL=${{ secrets.PREFECT_API_URL }}
-          
+
       - name: Create deployment
         working-directory: projects/jottings/hello_flow
-        run: prefect deployment build ./flow.py:main \
+        run: |
+          prefect deployment build ./flow.py:main \
           -n hello_flow \
           -q kubernetes \
           --override namespace='prefect2' \
