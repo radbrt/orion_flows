@@ -71,11 +71,7 @@ PS: Aazure will happily create a good number of identities for the AKS cluster. 
 
 ## Convert the flows
 
-This project contains two folders: `old_flows` and `orion_flows`. As you can see, the difference between the file is quite small. Change `from prefect import Flow, task` to `from prefect import flow, task` (flows are now decorators, with lowercase), and switch the classic `with Flow() as flow:` line for a function decorated with `@flow` similar to the way tasks are defined. A few other imports have changed as well, like the location of the `KubernetesRun` flow runner and the prefect logger is now created with `get_run_logger()` instead of `prefect.context.get('logger')`.
-
-And because Prefect Orion doesn't have secrets yet, we pull the secrets we need from Azure Key Vault.
-
-Because we use some particular libraries in this flow, we have to specify our own image. The dockerfile for that image sits next to the `flow.py` file, but we are manually creating and pushing this image to Docker Hub.
+Now that Prefect 2 (previously Orion) is GA, it has some features I have been waiting for. Importantly, Blocks. Especially because we use Secrets in Prefect 1, blocks (of type Secret) is perfect.
 
 ## Create a queue, deploy, and run
 Lastly, we need to create a work queue. We hinted at this in the first part, we already created an agent that looks for a queue named "kubernetes" so we should really create a queue like that. This queue can be created very simply on the command line: `prefect work-queue create kubernetes`.
