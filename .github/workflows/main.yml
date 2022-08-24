@@ -56,8 +56,8 @@ jobs:
       - name: Apply deployment
         working-directory: projects/jottings/hello_flow
         run: prefect deployment apply deployment.yaml
-      - name: Upload task definition as artifact
+      - name: Upload task definition as actions/upload-artifact
         uses: actions/upload-artifact@v3
         with:
           name: Deployment YAML manifests
-          path: deployment.yaml
+          path: projects/jottings/hello_flow/deployment.yaml
