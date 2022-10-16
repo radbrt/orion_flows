@@ -1,0 +1,4 @@
+azure-storage-blob
+sqlalchemy
+azure-mgmt-storage
+azure-identity

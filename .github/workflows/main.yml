@@ -40,4 +40,5 @@ jobs:
       - name: Create deployment
         run: |
           cd $(dirname ${{ matrix.deployment-file }})
+          pip install -r requirements.txt
           python $(basename ${{ matrix.deployment-file }})
