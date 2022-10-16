@@ -1,4 +1,22 @@
-# Moving from Prefect 1 to Prefect 2
+# Prefect 2
+
+## Creating CI/CD Deployments
+
+We want to create deployments from flows, and we have two main requirements:
+- Several deployments per flow, so that we can have different schedules, different arguments, etc.
+- We want to specify image name, storage etc in the deployment, for flexibility.
+
+
+We satisfy these requirements by having separate Deployment files. Any file ending in `.deployment.py` will be found and run by the CI/CD process (github action). Inside this file, we import the flow function, create a Deployment object and run the `apply()` method on it so that it gets registered with Prefect.
+
+These deployment files can also be run locally, as long as the user is logged in to prefect cloud.
+
+
+<hr />
+
+## Moving from Prefect 1 to Prefect 2
+
+This section might be a little outdated, but I'll leave it here for now.
 
 A lot of people have to port their workflows from prefect 1 to prefect 2. After spending way too long to get Prefect 2 up and running, I am now finally able to start converting my flows. Most of this post will be about things other than Prefect code though - like getting Azure set up in a meaningful way.
 
@@ -74,13 +92,3 @@ Now, if all has gone well, you can register the flow with Prefect Cloud by runni
 
 With that last piece of formality done, you can go into the Prefect UI, under "flows" in the left meny you will hopefully find your flow. If you click it, you will see some more details about it, and a "quick run" button. Click, and check the "Flow Runs" tab to find your fresh run.
 
-## CI/CD Deployments
-
-We want to create deployments from flows, and we have two main requirements:
-- Several deployments per flow, so that we can have different schedules, different arguments, etc.
-- We want to specify image name, storage etc in the deployment, for flexibility.
-
-
-We satisfy these requirements by having separate Deployment files. Any file ending in `.deployment.py` will be found and run by the CI/CD process (github action). Inside this file, we import the flow function, create a Deployment object and run the `apply()` method on it so that it gets registered with Prefect.
-
-These deployment files can also be run locally, as long as the user is logged in to prefect cloud.
