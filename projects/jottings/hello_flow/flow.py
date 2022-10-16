@@ -21,11 +21,11 @@ def print_platform_info():
 
 
 @flow
-def main():
+def main_hello_flow():
     hi = say_hi()
     print_platform_info(wait_for=[hi])
 
 if __name__ == '__main__':
-    main()
+    main_hello_flow()
 
 

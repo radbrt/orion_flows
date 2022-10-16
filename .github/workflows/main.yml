@@ -14,13 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: set-matrix
-        run: echo "::set-output name=matrix::$(find projects/ -maxdepth 2 -mindepth 2 | grep "${{ github.event.inputs.pattern }}" | jq -Rsc '. / "\n" - [""]')"
+        run: echo "::set-output name=matrix::$(find projects -name '*.deployment.py' | grep "${{ github.event.inputs.pattern }}" | jq -Rsc '. / "\n" - [""]')"
   register-flows:
     needs: create-matrix
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        flow-folder: ${{ fromJSON(needs.create-matrix.outputs.matrix) }}
+        deployment-file: ${{ fromJSON(needs.create-matrix.outputs.matrix) }}
       max-parallel: 10
     steps:
       - name: Checkout repository
@@ -33,31 +33,12 @@ jobs:
         run: pip install prefect adlfs
       - name: Check Prefect version
         run: prefect version
-      # - name: install dependencies
-      #   working-directory: projects/jottings/hello_flow
-      #   run: pip install -r requirements.txt
       - name: Login to Prefect Cloud 2.0
         run: |
           prefect config set PREFECT_API_KEY=${{ secrets.PREFECT_API_KEY }} 
           prefect config set PREFECT_API_URL=${{ secrets.PREFECT_API_URL }}
-
       - name: Create deployment
         working-directory: ${{ matrix.flow-folder }}
         run: |
-          prefect deployment build ./flow.py:main \
-          -n $(echo ${{ matrix.flow-folder }} | cut -d '/' -f3) \
-          -q kubernetes \
-          --override namespace='prefect2' \
-          --override image=radbrt/prefect_azure:latest \
-          --storage-block ${{ secrets.STORAGEBLOCK }} \
-          -t dev \
-          --infra kubernetes-job \
-          -o deployment.yaml
-      - name: Apply deployment
-        working-directory: ${{ matrix.flow-folder }}
-        run: prefect deployment apply deployment.yaml
-      - name: Upload task definition as actions/upload-artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: Deployment YAML manifests
-          path: ${{ matrix.flow-folder }}/deployment.yaml
+          cd dirname ${{ matrix.deployment-file }}
+          python $(basename ${{ matrix.deployment-file }})

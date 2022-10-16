@@ -25,14 +25,14 @@ Note that we enable managed identity. The Azure access management universe is so
 
 Once this is up and running, you need to authenticate with it through `az aks get-credentials`. This will add the cluster to your `~/.kube/config` file. The last thing we need to do now is to make sure the new AKS cluster is the default cluster your `kubectl` program uses: `kubectl config use-context prefectkube`.
 
-In order to get the agent up and running, we need at least two things: Our workspace URL, and our API Key. These can both be found in the Prefect 2 UI, and Laura does a better job of explaining where to find them than I do. For now, we'll pretend our workspace URL is `https://api-beta.prefect.io/api/accounts/19f6a4c7-c2f3-4d96-8c51-5fbae707fc57/workspaces/49231bd0-c4ff-4829-9834-b42908910ab6` and our API Key is `pnu_18d2d570Ab2beB482eD9947Ed5c2d284619c`. To be clear, these ones are entirely made up, but the format is fairly correct.
+In order to get the agent up and running, we need at least two things: Our workspace URL, and our API Key. These can both be found in the Prefect 2 UI, and Laura does a better job of explaining where to find them than I do. For now, we'll pretend our workspace URL is `https://api.prefect.cloud/api/accounts/api/accounts/19f6a4c7-c2f3-4d96-8c51-5fbae707fc57/workspaces/49231bd0-c4ff-4829-9834-b42908910ab6` and our API Key is `pnu_18d2d570Ab2beB482eD9947Ed5c2d284619c`. To be clear, these ones are entirely made up, but the format is fairly correct.
 
 You will see a lot of somewhat different deployment specifications, this one includes what I think of as a few good practices, without getting too complicated. Basically, the deployment uses the URL and API Key, but we don't want to reference them in plaintext. Instead, we create kubernetes secrets first, and reference them in the deploy script.
 
 
 ```sh
 kubectl create secret generic prefect \
---from-literal=api-url='https://api-beta.prefect.io/api/accounts/19f6a4c7-c2f3-4d96-8c51-5fbae707fc57/workspaces/49231bd0-c4ff-4829-9834-b42908910ab6' \
+--from-literal=api-url='https://api.prefect.cloud/api/accounts/19f6a4c7-c2f3-4d96-8c51-5fbae707fc57/workspaces/49231bd0-c4ff-4829-9834-b42908910ab6' \
 --from-literal=api-key='pnu_18d2d570Ab2beB482eD9947Ed5c2d284619c'
 ```
 
@@ -54,12 +54,6 @@ To create a container, select "containers" in the sidebar (under the "Data stora
 
 The access keys are also important, you will find them under "Access keys" in the sidebar (under the "Security and networking" section). What you want to copy is the "Connection string" value from Key 1 (there are two keys so that you will be able to rotate one key at the time). It should start with `DefaultEndpointsProtocol=https;AccountName=<...>`. Again, we will need this in a second.
 
-### Set up storage in prefect
-When prefect registers a flow, it needs to connect to our storage account to save the flow there. Again, Laura explains setting up storage better than I do, but a few notes on azure in particular:
-
-Create storage using the `prefect storage create` command. You will get asked which type of storage to create, where Azure is option 0. After that, you will be asked for the container name (which you created and noted the namee of), the connection string (which you made a note), and give it a nickname.
-
-You can check that the storage has been created by running `prefect storage ls`.
 
 ## Connect a Key Vault
 
@@ -74,7 +68,7 @@ PS: Aazure will happily create a good number of identities for the AKS cluster. 
 Now that Prefect 2 (previously Orion) is GA, it has some features I have been waiting for. Importantly, Blocks. Especially because we use Secrets in Prefect 1, blocks (of type Secret) is perfect.
 
 ## Create a queue, deploy, and run
-Lastly, we need to create a work queue. We hinted at this in the first part, we already created an agent that looks for a queue named "kubernetes" so we should really create a queue like that. This queue can be created very simply on the command line: `prefect work-queue create kubernetes`.
+Lastly, we need to create a work queue. We hinted at this in the first part, we already created an agent that looks for a queue named "kubernetes" so we should really create a queue like that. This queue can be created very simply on the command line: `prefect work-queue create kubernetes`. Actually, you don't even have to anymore. Recent versions of prefect creates these queues automatically when creating a deployment.
 
 Now, if all has gone well, you can register the flow with Prefect Cloud by running `prefect deployment create orion_flows/dn_flow/flow.py`. Hopefully needless to say, that flow points to my own stuff in GCP etc, so don't just copy-paste that flow. Replace the inner workings of it with something else.
 

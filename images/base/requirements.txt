@@ -6,3 +6,4 @@ azure-mgmt-storage
 azure-identity
 azure-storage-blob
 sqlalchemy
+azure-keyvault
