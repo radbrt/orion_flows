@@ -62,8 +62,8 @@ def kube_create_job(api_instance):
         logger.info(dir(api_response))
         v1 = client.CoreV1Api()
         w = watch.Watch()
-        for e in w.stream(v1.read_namespaced_pod_log, name=pod, namespace=namespace):
-            print(e)
+        # for e in w.stream(v1.read_namespaced_pod_log, name=pod, namespace=namespace):
+        #     print(e)
         sleep(10)
         logger.info("Sleeping 10 seconds")
         job_log = api_instance.read_namespaced_pod_log(name=name, namespace='prefect2')

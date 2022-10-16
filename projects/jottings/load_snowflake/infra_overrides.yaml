@@ -1,3 +1,0 @@
-infra_overrides:
-  namespace: prefect2
-  image: radbrt/prefect_azure:latest
