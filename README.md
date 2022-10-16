@@ -77,8 +77,8 @@ With that last piece of formality done, you can go into the Prefect UI, under "f
 ## CI/CD Deployments
 
 We want to create deployments from flows, and we have two main requirements:
-    - Several deployments per flow, so that we can have different schedules, different arguments, etc.
-    - We want to specify image name, storage etc in the deployment, for flexibility.
+- Several deployments per flow, so that we can have different schedules, different arguments, etc.
+- We want to specify image name, storage etc in the deployment, for flexibility.
 
 
 We satisfy these requirements by having separate Deployment files. Any file ending in `deployment.py` will be found and run by the CI/CD process (github action). Inside this file, we import the flow function, create a Deployment object and run the `apply()` method on it so that it gets registered with Prefect.
