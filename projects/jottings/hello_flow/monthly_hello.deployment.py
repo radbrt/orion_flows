@@ -18,7 +18,7 @@ monthly_deployment = Deployment.build_from_flow(
     storage=az_block,
     infra_overrides={"image": "radbrt/prefect_azure:latest", "namespace": "prefect2"},
     work_queue_name="kubernetes",
-    path=os.getcwd(),
+    path=os.getcwd()[os.getcwd().find("orion_flows"):],
 )
 
 
