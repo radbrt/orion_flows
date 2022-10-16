@@ -1,15 +1,35 @@
 # Prefect 2
+This repo contains some Prefect 2 flows that are automatically deployed with github actions. It is set up to run on an AKS cluster, and some AKS and general Azure setup is described further down.
+
+We organize flows under the `/projects` folder. The project is structured with subfolders that represent different "projects", and under there one folder per flow. This setup is borrowed from a similar setup with prefect 1, but can be relaxed slightly with this deployment pattern.
+
 
 ## Creating CI/CD Deployments
 
 We want to create deployments from flows, and we have two main requirements:
-- Several deployments per flow, so that we can have different schedules, different arguments, etc.
-- We want to specify image name, storage etc in the deployment, for flexibility.
+- Several deployments per flow, so that we can have different schedules, different arguments, etc for the same flow.
+- We want to be able to specify image name, storage etc in the deployment, for flexibility.
 
 
 We satisfy these requirements by having separate Deployment files. Any file ending in `.deployment.py` will be found and run by the CI/CD process (github action). Inside this file, we import the flow function, create a Deployment object and run the `apply()` method on it so that it gets registered with Prefect.
 
 These deployment files can also be run locally, as long as the user is logged in to prefect cloud.
+
+### Requirements
+As mentioned above, the structure of this repo can be changed somewhat without errors, the current setup makes the following assumptions:
+- All deployments are in a file that ends with `.deployment.py`. Any file ending in `.deployment.py` will be run during the deploy process: `python my-daily.deployment.py`.
+- In the same folder as the deployment file(s), there is a `requirements.txt` file that specifies the requirements of the flow
+
+It is not strictly necessary for the flow file to be located in the same folder as the deployment file, as long as the imports work.
+
+### Other considerations
+We are using Azure storage for our flows, and because we have several flows we want to make sure our flows end up in different folders in the Azure Storage container. We do this by using the `path` argument in the deployment, and crudely cutting the path to exclude anything above the project folder (this requires the repo name to be unique in the path - don't let your repo name and your user name be the same, or it gets confused - nothing horrible will happen, but the structure will be different). This way, the structure in the storage container reflects the structure of the project. Another possibility would be to generate a unique UUID, so that the deployment is placed in a unique subfolder for each run. This seems a little messy though, especially as there does not seem to be a way to find the exact code location for each run. Maybe in the future though. But in any case, I'm not very worried about versioning right now.
+
+In the examples, there is only one deployment per deployment-file. This is not a requirement, but it seemed tidy.
+
+
+## Cookiecutter
+There is a cookiecutter template included, simply install cookiecutter (`pip install cookiecutter`) and from the project root directory run `cookiecutter template`. A few questions will pop up in your command prompt, and you will have a skeleton flow ready to go.
 
 
 <hr />
