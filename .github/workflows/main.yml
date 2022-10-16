@@ -38,7 +38,6 @@ jobs:
           prefect config set PREFECT_API_KEY=${{ secrets.PREFECT_API_KEY }} 
           prefect config set PREFECT_API_URL=${{ secrets.PREFECT_API_URL }}
       - name: Create deployment
-        working-directory: ${{ matrix.flow-folder }}
         run: |
-          cd dirname ${{ matrix.deployment-file }}
+          cd $(dirname ${{ matrix.deployment-file }})
           python $(basename ${{ matrix.deployment-file }})
