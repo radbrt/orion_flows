@@ -81,6 +81,6 @@ We want to create deployments from flows, and we have two main requirements:
 - We want to specify image name, storage etc in the deployment, for flexibility.
 
 
-We satisfy these requirements by having separate Deployment files. Any file ending in `deployment.py` will be found and run by the CI/CD process (github action). Inside this file, we import the flow function, create a Deployment object and run the `apply()` method on it so that it gets registered with Prefect.
+We satisfy these requirements by having separate Deployment files. Any file ending in `.deployment.py` will be found and run by the CI/CD process (github action). Inside this file, we import the flow function, create a Deployment object and run the `apply()` method on it so that it gets registered with Prefect.
 
 These deployment files can also be run locally, as long as the user is logged in to prefect cloud.
