@@ -2,8 +2,6 @@ from prefect import task, flow
 from prefect import get_run_logger
 import prefect
 from prefect.blocks.notifications import SlackWebhook
-from prefect.filesystems import Azure
-from prefect.deployments import Deployment
 
 @task
 def say_hi():
