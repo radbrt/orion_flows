@@ -73,3 +73,14 @@ Lastly, we need to create a work queue. We hinted at this in the first part, we 
 Now, if all has gone well, you can register the flow with Prefect Cloud by running `prefect deployment create orion_flows/dn_flow/flow.py`. Hopefully needless to say, that flow points to my own stuff in GCP etc, so don't just copy-paste that flow. Replace the inner workings of it with something else.
 
 With that last piece of formality done, you can go into the Prefect UI, under "flows" in the left meny you will hopefully find your flow. If you click it, you will see some more details about it, and a "quick run" button. Click, and check the "Flow Runs" tab to find your fresh run.
+
+## CI/CD Deployments
+
+We want to create deployments from flows, and we have two main requirements:
+    - Several deployments per flow, so that we can have different schedules, different arguments, etc.
+    - We want to specify image name, storage etc in the deployment, for flexibility.
+
+
+We satisfy these requirements by having separate Deployment files. Any file ending in `deployment.py` will be found and run by the CI/CD process (github action). Inside this file, we import the flow function, create a Deployment object and run the `apply()` method on it so that it gets registered with Prefect.
+
+These deployment files can also be run locally, as long as the user is logged in to prefect cloud.

@@ -1,10 +1,11 @@
 from prefect.deployments import Deployment
 from flow import main_hello_flow
 from prefect.filesystems import Azure
-from prefect.infrastructure import KubernetesJob
 from prefect.orion.schemas.schedules import CronSchedule
-from prefect.infrastructure.kubernetes import KubernetesJob
 import os
+
+# Import flow function from flow.py
+from flow import main_hello_flow
 
 az_block = Azure.load("twentysix")
 
