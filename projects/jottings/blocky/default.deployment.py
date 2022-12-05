@@ -1,22 +1,19 @@
 from prefect.deployments import Deployment
-from flow import main_hello_flow
 from prefect.filesystems import Azure
 from prefect.orion.schemas.schedules import CronSchedule
 from prefect.infrastructure.kubernetes import KubernetesJob
 import os
 
 # Import flow function from flow.py
-from flow import main_hello_flow
+from flow import blocky
 
 az_block = Azure.load("twentysix")
-kubernetes_job_block = KubernetesJob.load("orion-mini")
+kubernetes_job_block = KubernetesJob.load("simple")
 
-daily_deployment = Deployment.build_from_flow(
-    flow=main_hello_flow,
-    name="Daily Hello Flow",
+blocky_deployment = Deployment.build_from_flow(
+    flow=blocky,
+    name="Default Deployment",
     version="1",
-    tags=["scheduled", "daily"],
-    schedule=CronSchedule(cron="0 0 * * *", timezone="America/Chicago"),
     storage=az_block,
     infrastructure=kubernetes_job_block,
     infra_overrides={"image": "radbrt/prefect_azure:latest", "namespace": "prefect2"},
@@ -25,4 +22,4 @@ daily_deployment = Deployment.build_from_flow(
 )
 
 
-daily_deployment.apply(upload=True)
+blocky_deployment.apply()

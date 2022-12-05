@@ -1,4 +1,4 @@
-FROM prefecthq/prefect:2.6.1-python3.9
+FROM prefecthq/prefect:2.6.7-python3.9
 
 
 RUN apt update && \
