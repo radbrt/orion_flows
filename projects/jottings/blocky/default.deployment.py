@@ -8,7 +8,30 @@ import os
 from flow import blocky
 
 az_block = Azure.load("twentysix")
-kubernetes_job_block = KubernetesJob.load("simple")
+kubernetes_job_block = KubernetesJob.load("logging-test")
+
+infra_overrides={ 
+    "customizations": [
+        {
+            "op": "add",
+            "path": "/spec/template/spec/volumes/-",
+            "value": {
+                "name": "my-volume",
+                "persistentVolumeClaim": {
+                    "claimName": "my-pvc"
+                }
+            }
+        },
+        {
+            "op": "add",
+            "path": "/spec/template/spec/containers/0/volumeMounts/-",
+            "value": {
+                "name": "my-volume",
+                "mountPath": "/path/to/mount"
+            }
+        }
+    ]
+}
 
 blocky_deployment = Deployment.build_from_flow(
     flow=blocky,
@@ -16,9 +39,9 @@ blocky_deployment = Deployment.build_from_flow(
     version="1",
     storage=az_block,
     infrastructure=kubernetes_job_block,
-    infra_overrides={"image": "radbrt/prefect_azure:latest", "namespace": "prefect2"},
     work_queue_name="kubernetes",
     path=os.getcwd()[os.getcwd().find("orion_flows"):],
+    infra_overrides=infra_overrides
 )
 
 

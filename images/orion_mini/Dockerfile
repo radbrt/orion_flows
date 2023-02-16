@@ -1,3 +1,5 @@
-FROM continuumio/miniconda3
+FROM python:3.9-alpine
 
-RUN pip install adlfs prefect==2.6.4
+COPY requirements.txt requirements.txt
+
+RUN pip install -r requirements.txt

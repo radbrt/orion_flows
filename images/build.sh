@@ -1,9 +1,9 @@
 !# /bin/bash
 echo "Build the images for the project"
-for d in orion_* ; do
+for d in orion_mel* ; do
     echo "Building $d"
     cd $d
-    docker build -t radbrt/$d .
-    docker push radbrt/$d
+    docker build -t cocerxkubecr.azurecr.io/$d .
+    docker push cocerxkubecr.azurecr.io/$d
     cd ..
 done
