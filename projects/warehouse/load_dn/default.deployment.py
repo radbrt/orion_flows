@@ -7,7 +7,7 @@ import os
 # Import flow function from flow.py
 from flow import load_dn
 
-deployment_name = "Default Deployment"
+deployment_name = "Default"
 
 flow_name = load_dn.name
 storage_path = deployment_name.lower().replace(" ", "_") + flow_name.lower().replace(" ", "_") + '/'
