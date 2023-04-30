@@ -1,6 +1,6 @@
 # Your very own low-quality-fact bot
 
-(Or whatever you want it to say)
+(Or whatever else you want it to be)
 
 This flow takes an LLM prompt as input, and invokes the dolly-3b LLM produced by databricks to generate a response. The response is posted to slack via a slack hook.
 
