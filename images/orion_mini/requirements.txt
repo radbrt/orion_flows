@@ -1,0 +1,6 @@
+adlfs
+azure-identity
+azure-storage-blob
+sqlalchemy
+azure-keyvault
+snowflake-sqlalchemy

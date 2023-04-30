@@ -1,6 +1,6 @@
 from prefect.deployments import Deployment
 from prefect.filesystems import Azure
-from prefect.orion.schemas.schedules import CronSchedule
+from prefect.server.schemas.schedules import CronSchedule
 from prefect.infrastructure.kubernetes import KubernetesJob
 import os
 
