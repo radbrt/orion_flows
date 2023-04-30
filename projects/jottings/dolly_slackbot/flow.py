@@ -15,7 +15,7 @@ def dolly_slackbot(question: str = "Tell me an untrue fact about the book 'Hitch
 
     generate_text = InstructionTextGenerationPipeline(model=model, tokenizer=tokenizer)
 
-    slack_webhook_block = SlackWebhook.load("radbrt")
+    slack_webhook_block = SlackWebhook.load("dolly-bot")
 
     engineered_prompt = f"""Create a long response to the prompt marked by triple single quotes.
 
