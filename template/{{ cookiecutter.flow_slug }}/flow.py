@@ -14,8 +14,8 @@ def print_platform_info():
     logger.info(f"Launching in Kubernetes")
 
 
-@flow
-def {{ cookiecutter.flow_slug }}(name="{{ cookiecutter.flow_name }}"):
+@flow(name="{{ cookiecutter.flow_name }}")
+def {{ cookiecutter.flow_slug }}():
     say_hi()
     print_platform_info()
     say_hi()
