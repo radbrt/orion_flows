@@ -1,0 +1,5 @@
+adlfs
+prefect-shell
+azure-identity
+azure-keyvault-secrets
+singer-python

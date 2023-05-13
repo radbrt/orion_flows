@@ -1,0 +1,109 @@
+INFO:root:Hello World
+DEBUG:root:This is your logger speaking
+WARNING:root:Please comply with the logging directives
+ERROR:root:This has been a public service announcement
+INFO:root:Hello World
+DEBUG:root:This is your logger speaking
+WARNING:root:Please comply with the logging directives
+ERROR:root:This has been a public service announcement
+INFO:root:Hello World
+DEBUG:root:This is your logger speaking
+WARNING:root:Please comply with the logging directives
+ERROR:root:This has been a public service announcement
+INFO:root:Hello World
+DEBUG:root:This is your logger speaking
+WARNING:root:Please comply with the logging directives
+ERROR:root:This has been a public service announcement
+INFO:root:Hello World
+DEBUG:root:This is your logger speaking
+WARNING:root:Please comply with the logging directives
+ERROR:root:This has been a public service announcement
+INFO:azure.core.pipeline.policies.http_logging_policy:Request URL: 'https://cocerxsftp.blob.core.windows.net/parseless/example.log?sp=REDACTED&st=REDACTED&se=REDACTED&spr=REDACTED&sv=REDACTED&sr=REDACTED&sig=REDACTED'
+Request method: 'PUT'
+Request headers:
+    'Content-Length': '860'
+    'x-ms-blob-type': 'REDACTED'
+    'If-None-Match': '*'
+    'x-ms-version': 'REDACTED'
+    'Content-Type': 'application/octet-stream'
+    'Accept': 'application/xml'
+    'User-Agent': 'azsdk-python-storage-blob/12.14.0 Python/3.10.6 (macOS-10.16-x86_64-i386-64bit)'
+    'x-ms-date': 'REDACTED'
+    'x-ms-client-request-id': '3d7fd22c-9cbd-11ed-a7ee-acde48001122'
+A body is sent with the request
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cocerxsftp.blob.core.windows.net:443
+DEBUG:urllib3.connectionpool:https://cocerxsftp.blob.core.windows.net:443 "PUT /parseless/example.log?sp=r&st=2023-01-25T14%3A29%3A10Z&se=2023-01-25T22%3A29%3A10Z&spr=https&sv=2021-06-08&sr=c&sig=ga89KgxHwfm1%2FjeIQudGLFPUFdNwc719pUQILUA80WQ%3D HTTP/1.1" 403 279
+INFO:azure.core.pipeline.policies.http_logging_policy:Response status: 403
+Response headers:
+    'Content-Length': '279'
+    'Content-Type': 'application/xml'
+    'Server': 'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0'
+    'x-ms-request-id': 'e9794f39-e01e-006b-25c9-30ad61000000'
+    'x-ms-client-request-id': '3d7fd22c-9cbd-11ed-a7ee-acde48001122'
+    'x-ms-version': 'REDACTED'
+    'x-ms-error-code': 'REDACTED'
+    'Date': 'Wed, 25 Jan 2023 14:33:30 GMT'
+INFO:root:Hello World
+DEBUG:root:This is your logger speaking
+WARNING:root:Please comply with the logging directives
+ERROR:root:This has been a public service announcement
+INFO:azure.core.pipeline.policies.http_logging_policy:Request URL: 'https://cocerxsftp.blob.core.windows.net/parseless/example.log?sp=REDACTED&st=REDACTED&se=REDACTED&spr=REDACTED&sv=REDACTED&sr=REDACTED&sig=REDACTED'
+Request method: 'PUT'
+Request headers:
+    'Content-Length': '2538'
+    'x-ms-blob-type': 'REDACTED'
+    'If-None-Match': '*'
+    'x-ms-version': 'REDACTED'
+    'Content-Type': 'application/octet-stream'
+    'Accept': 'application/xml'
+    'User-Agent': 'azsdk-python-storage-blob/12.14.0 Python/3.10.6 (macOS-10.16-x86_64-i386-64bit)'
+    'x-ms-date': 'REDACTED'
+    'x-ms-client-request-id': '6153030e-9cbd-11ed-bc1a-acde48001122'
+A body is sent with the request
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cocerxsftp.blob.core.windows.net:443
+DEBUG:urllib3.connectionpool:https://cocerxsftp.blob.core.windows.net:443 "PUT /parseless/example.log?sp=acw&st=2023-01-25T14%3A33%3A42Z&se=2023-01-25T22%3A33%3A42Z&spr=https&sv=2021-06-08&sr=c&sig=uOlxobi%2FVJC9PBLoWw0%2BujjX%2BN0WOk2ewN0vciMBWt8%3D HTTP/1.1" 201 0
+INFO:azure.core.pipeline.policies.http_logging_policy:Response status: 201
+Response headers:
+    'Content-Length': '0'
+    'Content-MD5': 'REDACTED'
+    'Last-Modified': 'Wed, 25 Jan 2023 14:34:31 GMT'
+    'ETag': '"0x8DAFEE1459BCBA2"'
+    'Server': 'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0'
+    'x-ms-request-id': 'e2760ded-701e-0046-45ca-301e12000000'
+    'x-ms-client-request-id': '6153030e-9cbd-11ed-bc1a-acde48001122'
+    'x-ms-version': 'REDACTED'
+    'x-ms-content-crc64': 'REDACTED'
+    'x-ms-request-server-encrypted': 'REDACTED'
+    'Date': 'Wed, 25 Jan 2023 14:34:30 GMT'
+INFO:root:Hello World
+DEBUG:root:This is your logger speaking
+WARNING:root:Please comply with the logging directives
+ERROR:root:This has been a public service announcement
+INFO:azure.core.pipeline.policies.http_logging_policy:Request URL: 'https://cocerxsftp.blob.core.windows.net/parseless/example_az.log?sp=REDACTED&st=REDACTED&se=REDACTED&spr=REDACTED&sv=REDACTED&sr=REDACTED&sig=REDACTED'
+Request method: 'PUT'
+Request headers:
+    'Content-Length': '4349'
+    'x-ms-blob-type': 'REDACTED'
+    'If-None-Match': '*'
+    'x-ms-version': 'REDACTED'
+    'Content-Type': 'application/octet-stream'
+    'Accept': 'application/xml'
+    'User-Agent': 'azsdk-python-storage-blob/12.14.0 Python/3.10.6 (macOS-10.16-x86_64-i386-64bit)'
+    'x-ms-date': 'REDACTED'
+    'x-ms-client-request-id': '2cf09ca6-9cbe-11ed-9385-acde48001122'
+A body is sent with the request
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): cocerxsftp.blob.core.windows.net:443
+DEBUG:urllib3.connectionpool:https://cocerxsftp.blob.core.windows.net:443 "PUT /parseless/example_az.log?sp=acw&st=2023-01-25T14%3A33%3A42Z&se=2023-01-25T22%3A33%3A42Z&spr=https&sv=2021-06-08&sr=c&sig=uOlxobi%2FVJC9PBLoWw0%2BujjX%2BN0WOk2ewN0vciMBWt8%3D HTTP/1.1" 201 0
+INFO:azure.core.pipeline.policies.http_logging_policy:Response status: 201
+Response headers:
+    'Content-Length': '0'
+    'Content-MD5': 'REDACTED'
+    'Last-Modified': 'Wed, 25 Jan 2023 14:40:13 GMT'
+    'ETag': '"0x8DAFEE2113C533B"'
+    'Server': 'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0'
+    'x-ms-request-id': '53dc20bb-201e-0029-72ca-3014e1000000'
+    'x-ms-client-request-id': '2cf09ca6-9cbe-11ed-9385-acde48001122'
+    'x-ms-version': 'REDACTED'
+    'x-ms-content-crc64': 'REDACTED'
+    'x-ms-request-server-encrypted': 'REDACTED'
+    'Date': 'Wed, 25 Jan 2023 14:40:12 GMT'
