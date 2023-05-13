@@ -1,8 +1,6 @@
 import logging
 import singer
 
-
-
 def main():
 
   LOGGER = logging.getLogger(__name__)
