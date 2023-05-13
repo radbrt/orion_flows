@@ -5,3 +5,4 @@ _jot*.py
 *.pyc
 *__pycache__*
 *.pyc
+.meltano
