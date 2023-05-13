@@ -1,38 +1,40 @@
 # Prefect 2
+
 This repo contains some Prefect 2 flows that are automatically deployed with github actions. It is set up to run on an AKS cluster, and some AKS and general Azure setup is described further down.
 
 We organize flows under the `/projects` folder. The project is structured with subfolders that represent different "projects", and under there one folder per flow. This setup is borrowed from a similar setup with prefect 1, but can be relaxed slightly with this deployment pattern.
 
-
 ## Creating CI/CD Deployments
 
 We want to create deployments from flows, and we have two main requirements:
+
 - Several deployments per flow, so that we can have different schedules, different arguments, etc for the same flow.
 - We want to be able to specify image name, storage etc in the deployment, for flexibility.
-
 
 We satisfy these requirements by having separate Deployment files. Any file ending in `.deployment.py` will be found and run by the CI/CD process (github action). Inside this file, we import the flow function, create a Deployment object and run the `apply()` method on it so that it gets registered with Prefect.
 
 These deployment files can also be run locally, as long as the user is logged in to prefect cloud.
 
 ### Requirements
+
 As mentioned above, the structure of this repo can be changed somewhat without errors, the current setup makes the following assumptions:
+
 - All deployments are in a file that ends with `.deployment.py`. Any file ending in `.deployment.py` will be run during the deploy process: `python my-daily.deployment.py`.
 - In the same folder as the deployment file(s), there is a `requirements.txt` file that specifies the requirements of the flow
 
 It is not strictly necessary for the flow file to be located in the same folder as the deployment file, as long as the imports work.
 
 ### Other considerations
+
 We are using Azure storage for our flows, and because we have several flows we want to make sure our flows end up in different folders in the Azure Storage container. We do this by using the `path` argument in the deployment, and crudely cutting the path to exclude anything above the project folder (this requires the repo name to be unique in the path - don't let your repo name and your user name be the same, or it gets confused - nothing horrible will happen, but the structure will be different). This way, the structure in the storage container reflects the structure of the project. Another possibility would be to generate a unique UUID, so that the deployment is placed in a unique subfolder for each run. This seems a little messy though, especially as there does not seem to be a way to find the exact code location for each run. Maybe in the future though. But in any case, I'm not very worried about versioning right now.
 
 In the examples, there is only one deployment per deployment-file. This is not a requirement, but it seemed tidy.
 
-
 ## Cookiecutter
+
 There is a cookiecutter template included, simply install cookiecutter (`pip install cookiecutter`) and from the project root directory run `cookiecutter template`. A few questions will pop up in your command prompt, and you will have a skeleton flow ready to go.
 
-
-<hr />
+---
 
 ## Moving from Prefect 1 to Prefect 2
 
@@ -47,6 +49,7 @@ A lot of people have to port their workflows from prefect 1 to prefect 2. After 
 5. Create a queue
 
 ## Creating an AKS cluster
+
 If you have prefect 1 up and running, you probably know this part. If not I'll give you the cliffnotes version, using the Azure CLI. Don't worry, I'm a fan of click-ops, and we'll get into the portal soon enough.
 
 First off, you probably want a resource group to for all the azure resources we are going to spin up. Let's call it **orion**. And because I'm in Europe, I feel like placing it in the west-europe region. We are also setting our default location to west europe, and our default resource group to the newly created "orion" group, which will simplify some of the later commands. 
@@ -66,7 +69,6 @@ Once this is up and running, you need to authenticate with it through `az aks ge
 In order to get the agent up and running, we need at least two things: Our workspace URL, and our API Key. These can both be found in the Prefect 2 UI, and Laura does a better job of explaining where to find them than I do. For now, we'll pretend our workspace URL is `https://api.prefect.cloud/api/accounts/api/accounts/19f6a4c7-c2f3-4d96-8c51-5fbae707fc57/workspaces/49231bd0-c4ff-4829-9834-b42908910ab6` and our API Key is `pnu_18d2d570Ab2beB482eD9947Ed5c2d284619c`. To be clear, these ones are entirely made up, but the format is fairly correct.
 
 You will see a lot of somewhat different deployment specifications, this one includes what I think of as a few good practices, without getting too complicated. Basically, the deployment uses the URL and API Key, but we don't want to reference them in plaintext. Instead, we create kubernetes secrets first, and reference them in the deploy script.
-
 
 ```sh
 kubectl create secret generic prefect \
@@ -92,20 +94,20 @@ To create a container, select "containers" in the sidebar (under the "Data stora
 
 The access keys are also important, you will find them under "Access keys" in the sidebar (under the "Security and networking" section). What you want to copy is the "Connection string" value from Key 1 (there are two keys so that you will be able to rotate one key at the time). It should start with `DefaultEndpointsProtocol=https;AccountName=<...>`. Again, we will need this in a second.
 
-
 ## Connect a Key Vault
 
-Depending on what you want to do in Prefect, you might not need a Key Vault. And Prefect 2 Secrets is just around the corner, so if you can wait a little that will be an option. But lots of people prefer using Azure Key Vault, perhaps as a company policy. 
+Depending on what you want to do in Prefect, you might not need a Key Vault. Prefect 2 Secrets is a convenient alternative, but in an enterprise environment you might be better served by using a Key Vault when you can. Whatever the reason, lots of people choose Azure Key Vault.
 
-Creating a Key Vault is simple, and you enable access to it from the AKS cluster just like with the storage account, by going into "Access Control (IAM) in the sidebar, add a new access assignment, find the "Key Vault Secrets User" role, and add it to the AKS Cluster Managed Identity just like you did with the storage account.
+Creating a Key Vault is simple, and you enable access to it from the AKS cluster just like with the storage account, by going into "Access Control (IAM) in the sidebar, add a new access assignment, find the "Key Vault Secrets User" role, and add it to the AKS Cluster Managed Identity just like you did with the storage account. This all assumes you are using Azure Managed Identity, which you really should be.
 
-PS: Aazure will happily create a good number of identities for the AKS cluster. AKS will pop up as one identity, the Virtual machine scale set (VMSS) that the cluster runs on will pop up, as well will a used-assigned managed identity. While the storage was happy when we assigned access rights to the AKS identity, the trick when using Python to access Key Vault seemed to be to assign the reader role to the ID of the Virtual machine scale set. I'm not sure I got that right.
+PS: Azure will happily create a good number of identities for the AKS cluster. AKS will pop up as one identity, the Virtual machine scale set (VMSS) that the cluster runs on will pop up, and perhaps even a used-assigned managed identity. The trick when using Python to access Key Vault seemed to be to assign the reader role to the ID of the Virtual machine scale set.
 
 ## Convert the flows
 
 Now that Prefect 2 (previously Orion) is GA, it has some features I have been waiting for. Importantly, Blocks. Especially because we use Secrets in Prefect 1, blocks (of type Secret) is perfect.
 
 ## Create a queue, deploy, and run
+
 Lastly, we need to create a work queue. We hinted at this in the first part, we already created an agent that looks for a queue named "kubernetes" so we should really create a queue like that. This queue can be created very simply on the command line: `prefect work-queue create kubernetes`. Actually, you don't even have to anymore. Recent versions of prefect creates these queues automatically when creating a deployment.
 
 Now, if all has gone well, you can register the flow with Prefect Cloud by running `prefect deployment create orion_flows/dn_flow/flow.py`. Hopefully needless to say, that flow points to my own stuff in GCP etc, so don't just copy-paste that flow. Replace the inner workings of it with something else.

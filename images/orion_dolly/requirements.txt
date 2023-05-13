@@ -1,0 +1,5 @@
+torch
+transformers[torch]==4.25.1
+accelerate>=0.12.0
+prefect
+adlfs

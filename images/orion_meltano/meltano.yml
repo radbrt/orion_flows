@@ -1,0 +1,28 @@
+version: 1
+default_environment: dev
+project_id: af26f985-540b-42f3-90fe-4df505747c0a
+environments:
+- name: dev
+- name: staging
+- name: prod
+plugins:
+  extractors:
+  - name: tap-sftp
+    variant: meltanolabs
+    pip_url: git+https://github.com/MeltanoLabs/tap-sftp.git
+  - name: tap-spreadsheets-anywhere
+    variant: ets
+    pip_url: git+https://github.com/ets/tap-spreadsheets-anywhere.git
+    config:
+      tables:
+        - name: sciencebasedtargets
+          path: https://sciencebasedtargets.org/resources/files/
+          pattern: SBTiProgressReport2021AppendixData.xlsx
+          format: excel
+  loaders:
+  - name: target-snowflake
+    variant: meltanolabs
+    pip_url: pipelinewise-target-snowflake==2.2.0
+  - name: target-jsonl
+    variant: andyh1203
+    pip_url: target-jsonl

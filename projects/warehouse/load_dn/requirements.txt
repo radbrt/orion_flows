@@ -1,0 +1,13 @@
+azure-keyvault-secrets
+adlfs
+azure-mgmt-storage
+azure-identity
+azure-storage-blob
+sqlalchemy
+pandas
+pandas-gbq
+pyarrow
+oauth2client
+feedparser
+google-auth
+prefect

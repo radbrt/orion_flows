@@ -5,20 +5,27 @@ from prefect.infrastructure.kubernetes import KubernetesJob
 import os
 
 # Import flow function from flow.py
-from flow import storage_write
+from flow import save_er
+
+deployment_name = "Default"
+
+flow_name = save_er.name
+storage_path = deployment_name.lower().replace(" ", "_") + flow_name.lower().replace(" ", "_") + '/'
 
 az_block = Azure.load("twentysix")
 kubernetes_job_block = KubernetesJob.load("base")
 
-storage_write_deployment = Deployment.build_from_flow(
-    flow=storage_write,
-    name="Default Deployment",
+save_er_deployment = Deployment.build_from_flow(
+    flow=save_er,
+    name=deployment_name,
     version="1",
     storage=az_block,
+    schedule=CronSchedule(cron="15 04 * * 6", timezone="Europe/Oslo"),
     infrastructure=kubernetes_job_block,
     work_queue_name="kubernetes",
-    path="some_flow/",
+    path=storage_path,
 )
 
 
-storage_write_deployment.apply()
+save_er_deployment.apply(upload=True)
+
