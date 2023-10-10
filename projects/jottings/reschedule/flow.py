@@ -61,14 +61,15 @@ def reschedule():
     full_name = f"{flow_name}/{deployment_name}"
     
     # Trigger Deployment to run once, async
-    run_once(flow_name, deployment_name)
+    # run_once(flow_name, deployment_name)
 
     # Update schedule for deployment
-    new_schedule = CronSchedule(cron="0 9 * * 1-5")
+    # new_schedule = CronSchedule(cron="0 9 * * 1-5")
+    new_schedule = [datetime.datetime.utcnow() + datetime.timedelta(seconds=1000)]
     update_schedule(flow_name, deployment_name, new_schedule)
 
     # Trigger Deployment to run as subflow
-    simple_run(full_name)
+    # simple_run(full_name)
 
 
 if __name__ == '__main__':

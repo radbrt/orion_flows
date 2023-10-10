@@ -7,3 +7,4 @@ _jot*.py
 *.pyc
 .meltano/
 *.lock
+misc/
