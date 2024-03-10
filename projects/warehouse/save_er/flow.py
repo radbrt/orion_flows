@@ -2,7 +2,7 @@ from prefect import task, flow
 from prefect import get_run_logger
 import requests
 from azure.keyvault.secrets import SecretClient
-from azure.identity import DefaultAzureCredential
+from azure.identity import DefaultAzureCredential, ManagedIdentityCredential, WorkloadIdentityCredential
 from azure.storage.blob import BlobServiceClient, BlobClient
 import datetime
 
@@ -10,7 +10,8 @@ import datetime
 def save_file_to_storage(prefix, url):
     filename = f"{prefix}/{str(datetime.date.today())}.json"
 
-    credential = DefaultAzureCredential()
+    cred = WorkloadIdentityCredential(resource_id="https://storage.azure.com/")
+    credential = ManagedIdentityCredential(client_id="1cf29abb-1400-4d0d-aa4a-a1796f47af2a")
     service = BlobServiceClient(account_url=f"https://radlake.blob.core.windows.net/", credential=credential)
 
     container_client = service.get_container_client("enhetsregisteret")

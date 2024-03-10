@@ -1,0 +1,10 @@
+adlfs
+dask
+dask-snowflake
+psycopg2
+azure-mgmt-storage
+azure-identity
+azure-storage-blob
+sqlalchemy
+azure-keyvault
+coiled

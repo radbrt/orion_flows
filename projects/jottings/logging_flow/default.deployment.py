@@ -11,7 +11,7 @@ kubernetes_job_block = KubernetesJob.load("logging-test")
 
 logging_flow_deployment = Deployment.build_from_flow(
     flow=logging_flow,
-    name="Default Deployment",
+    name="Default",
     version="1",
     storage=az_block,
     infrastructure=kubernetes_job_block,
